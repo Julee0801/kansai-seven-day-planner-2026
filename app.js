@@ -5,6 +5,8 @@ const state = {
   budget: 'mid',
   sights: [],
   customizedSights: false,
+  hiddenStops: {},
+  manualOrders: {},
   day: 0
 };
 
@@ -257,15 +259,41 @@ let pickerCity = 'osaka';
 let draftSights = [...state.sights];
 const sightImageCache = {};
 
+function stopKey(stop){return stop.title;}
+function mapsSearch(title){return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title+' 日本')}`;}
+function mapsRoute(stops){
+  if(stops.length<2)return mapsSearch(stops[0]?.title||'关西');
+  const parts=stops.map(x=>x.title+' 日本');
+  return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(parts[0])}&destination=${encodeURIComponent(parts.at(-1))}&waypoints=${encodeURIComponent(parts.slice(1,-1).join('|'))}&travelmode=transit`;
+}
+function applyManualEdits(days){
+  return days.map((day,dayIndex)=>{
+    const hidden=state.hiddenStops?.[dayIndex]||[];
+    let stops=day.stops.filter(stop=>!hidden.includes(stopKey(stop)));
+    const order=state.manualOrders?.[dayIndex]||[];
+    if(order.length){
+      const rank=new Map(order.map((key,index)=>[key,index]));
+      stops=[...stops].sort((a,b)=>(rank.get(stopKey(a))??999)-(rank.get(stopKey(b))??999));
+    }
+    return {...day,stops};
+  });
+}
+
 function renderTabs(){
   document.querySelector('#dayTabs').innerHTML = dates.map((d,i)=>`<button class="day-tab ${i===state.day?'active':''}" role="tab" aria-selected="${i===state.day}" data-day="${i}"><span>${d[1]}</span><b>${d[0]}</b></button>`).join('');
 }
 
 function renderDay(){
   const d = currentDays[state.day];
+  const mapStops=d.stops.filter(x=>x.title).slice(0,8);
   document.querySelector('#dayDetail').innerHTML = `
     <div class="day-hero"><div><span class="city-label">DAY ${state.day+1} · ${d.city}</span><h3>${d.title}</h3><p>${dates[state.day][0]} · ${dates[state.day][1]} · 住宿：${d.stay}</p></div><div class="day-stats"><span>🚶 ${d.walk}</span><span>🚆 ${d.rail}</span></div></div>
-    <div class="timeline">${d.stops.map(x=>`<div class="stop"><div class="stop-time">${x.time}</div><div class="stop-rail"><i class="stop-dot"></i></div><div class="stop-body"><h4>${x.title}</h4><p>${x.desc}</p>${x.transit?`<span class="transit"><i>↳</i>${x.transit}</span>`:''}${x.note?`<small class="stop-note">提醒：${x.note}</small>`:''}</div></div>`).join('')}</div>`;
+    <section class="route-map-card" aria-label="当天路线地图">
+      <div class="route-map-head"><div><span>ROUTE MAP</span><b>当天动线一览</b></div><a href="${mapsRoute(mapStops)}" target="_blank" rel="noreferrer">Google 地图 ↗</a></div>
+      <div class="route-map-track">${mapStops.map((x,i)=>`<a href="${mapsSearch(x.title)}" target="_blank" rel="noreferrer"><i>${i+1}</i><span>${x.title.replace(/ · | → /g,'<br>')}</span></a>`).join('')}</div>
+    </section>
+    <div class="edit-hint"><span>拖动景点调整顺序，或使用箭头微调；不想去的项目可以暂时隐藏。</span><button data-reset-day>恢复当天默认</button></div>
+    <div class="timeline" id="sortableTimeline">${d.stops.map((x,i)=>`<div class="stop" draggable="true" data-stop-index="${i}"><div class="stop-time">${x.time}</div><div class="stop-rail"><i class="stop-dot"></i></div><div class="stop-body"><div class="stop-title-row"><h4>${x.title}</h4><div class="stop-actions"><a href="${mapsSearch(x.title)}" target="_blank" rel="noreferrer" title="在地图中打开">地图</a><button data-move="up" data-index="${i}" aria-label="上移 ${x.title}">↑</button><button data-move="down" data-index="${i}" aria-label="下移 ${x.title}">↓</button><button data-hide="${i}" aria-label="隐藏 ${x.title}">×</button></div></div><p>${x.desc}</p>${x.transit?`<span class="transit"><i>↳</i>${x.transit}</span>`:''}${x.note?`<small class="stop-note">提醒：${x.note}</small>`:''}</div></div>`).join('')}</div>`;
   const sightStops=d.stops.filter(x=>x.spot).length;
   const warning=sightStops>5?`<strong>强度提醒：当天已选 ${sightStops} 个景点，建议再取消 1–2 个。 </strong>`:'';
   document.querySelector('#routeTip').innerHTML = `${warning}<b>这天的关键：</b> ${d.tip}`;
@@ -280,7 +308,7 @@ function renderSightPicker(){
   const cityNames = {osaka:'大阪 · 经典城区与夜景',kyoto:'京都 · 寺社与古都街区',nara:'奈良 · 公园寺社单向动线',kobe:'神户 · 山景、洋馆与港湾'};
   document.querySelector('#citySightHint').textContent = cityNames[pickerCity];
   document.querySelectorAll('[data-picker-city]').forEach(b=>b.classList.toggle('active',b.dataset.pickerCity===pickerCity));
-  document.querySelector('#sightOptions').innerHTML = attractions[pickerCity].map(a=>`<label class="sight-option ${draftSights.includes(a.id)?'selected':''}"><input type="checkbox" value="${a.id}" ${draftSights.includes(a.id)?'checked':''}><img class="sight-photo" src="${sightImageCache[a.id]||'assets/kansai-winter-hero.png'}" data-id="${a.id}" data-wiki="${a.wiki}" data-commons="${a.commons||a.wiki.replaceAll('_',' ')}" alt="${a.name}标志性景观" loading="lazy"><span class="sight-check">✓</span><span class="sight-copy"><b>${a.name}</b><small>${a.meta}</small></span></label>`).join('');
+  document.querySelector('#sightOptions').innerHTML = attractions[pickerCity].map(a=>`<label class="sight-option ${draftSights.includes(a.id)?'selected':''}"><input type="checkbox" value="${a.id}" ${draftSights.includes(a.id)?'checked':''}><span class="photo-shell"><img class="sight-photo ${sightImageCache[a.id]?'loaded':''}" src="${sightImageCache[a.id]||'assets/kansai-winter-hero.png'}" data-id="${a.id}" data-wiki="${a.wiki}" data-commons="${a.commons||a.wiki.replaceAll('_',' ')}" alt="${a.name}标志性景观" loading="lazy"></span><span class="sight-check">✓</span><span class="sight-copy"><b>${a.name}</b><small>${a.meta}</small></span></label>`).join('');
   document.querySelector('#modalSightCount').textContent = draftSights.length;
   loadSightImages();
 }
@@ -300,7 +328,7 @@ async function loadSightImages(){
           const search=await fetch(`https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(img.dataset.commons)}&gsrnamespace=6&gsrlimit=1&prop=imageinfo&iiprop=url&iiurlwidth=640&format=json&origin=*`);
           if(search.ok){const data=await search.json();source=Object.values(data.query?.pages||{})[0]?.imageinfo?.[0]?.thumburl||'';}
         }
-        if(source){sightImageCache[id]=source;img.src=source;}
+        if(source){sightImageCache[id]=source;img.src=source;img.onload=()=>img.classList.add('loaded');try{sessionStorage.setItem('kansaiSightImages',JSON.stringify(sightImageCache));}catch{}}
       }catch{}
     }
   }
@@ -336,7 +364,7 @@ function updateHeader(){
 
 function renderAll(resetDay=false){
   if(resetDay) state.day = 0;
-  currentDays = buildDays();
+  currentDays = applyManualEdits(buildDays());
   renderTabs(); renderDay(); updateHeader(); updateSightCount();
   const activeCity = document.querySelector('#hotelTabs .active')?.dataset.city || 'osaka';
   renderHotel(activeCity);
@@ -352,7 +380,42 @@ document.addEventListener('click',e=>{
   const chip=e.target.closest('.chips button'); if(chip){chip.classList.toggle('active');const val=chip.dataset.value;state.interests=chip.classList.contains('active')?[...new Set([...state.interests,val])]:state.interests.filter(x=>x!==val);}
   const htab=e.target.closest('#hotelTabs button'); if(htab){document.querySelectorAll('#hotelTabs button').forEach(b=>b.classList.remove('active'));htab.classList.add('active');renderHotel(htab.dataset.city);}
   const pickerTab=e.target.closest('[data-picker-city]'); if(pickerTab){pickerCity=pickerTab.dataset.pickerCity;renderSightPicker();}
+  const move=e.target.closest('[data-move]'); if(move){moveStop(+move.dataset.index,move.dataset.move==='up'?-1:1);}
+  const hide=e.target.closest('[data-hide]'); if(hide){hideStop(+hide.dataset.hide);}
+  if(e.target.closest('[data-reset-day]')){resetDayEdits();}
 });
+
+function saveDayOrder(dayIndex){
+  state.manualOrders[dayIndex]=currentDays[dayIndex].stops.map(stopKey);
+  localStorage.setItem('kansaiPlannerPrefs',JSON.stringify(state));
+}
+function moveStop(index,delta){
+  const stops=currentDays[state.day].stops;const target=index+delta;
+  if(target<0||target>=stops.length)return;
+  const slots=stops.map(x=>x.time).sort();[stops[index],stops[target]]=[stops[target],stops[index]];stops.forEach((stop,i)=>stop.time=slots[i]);saveDayOrder(state.day);renderDay();toast('已调整当天顺序与时间');
+}
+function hideStop(index){
+  const stop=currentDays[state.day].stops[index];if(!stop)return;
+  state.hiddenStops[state.day]=[...new Set([...(state.hiddenStops[state.day]||[]),stopKey(stop)])];
+  currentDays[state.day].stops.splice(index,1);saveDayOrder(state.day);renderDay();toast(`已隐藏：${stop.title}`);
+}
+function resetDayEdits(){delete state.hiddenStops[state.day];delete state.manualOrders[state.day];currentDays=applyManualEdits(buildDays());renderDay();localStorage.setItem('kansaiPlannerPrefs',JSON.stringify(state));toast('已恢复当天默认路线');}
+let dragFrom=-1;
+document.addEventListener('dragstart',e=>{const row=e.target.closest('.stop[draggable]');if(!row)return;dragFrom=+row.dataset.stopIndex;row.classList.add('dragging');});
+document.addEventListener('dragend',e=>{e.target.closest('.stop')?.classList.remove('dragging');dragFrom=-1;});
+document.addEventListener('dragover',e=>{if(e.target.closest('.stop[draggable]'))e.preventDefault();});
+document.addEventListener('drop',e=>{const row=e.target.closest('.stop[draggable]');if(!row||dragFrom<0)return;e.preventDefault();const to=+row.dataset.stopIndex;if(to===dragFrom)return;const stops=currentDays[state.day].stops;const slots=stops.map(x=>x.time).sort();const [item]=stops.splice(dragFrom,1);stops.splice(to,0,item);stops.forEach((stop,i)=>stop.time=slots[i]);saveDayOrder(state.day);renderDay();toast('路线顺序与时间已保存');});
+
+function renderTravelMode(){
+  const d=currentDays[state.day];
+  document.querySelector('#travelModeTitle').textContent=`${dates[state.day][0]} · ${d.city.split(' · ')[0]}`;
+  document.querySelector('#travelContent').innerHTML=`<div class="travel-summary"><b>${d.title}</b><span>${d.walk} · 交通 ${d.rail}</span></div><div class="travel-list">${d.stops.map((x,i)=>`<article><i>${i+1}</i><div><time>${x.time}</time><h3>${x.title}</h3><p>${x.transit||x.desc}</p></div><a href="${mapsSearch(x.title)}" target="_blank" rel="noreferrer">导航 ↗</a></article>`).join('')}</div>`;
+}
+function openTravelMode(){renderTravelMode();document.querySelector('#travelMode').classList.add('open');document.querySelector('#travelMode').setAttribute('aria-hidden','false');document.body.classList.add('no-scroll');}
+function closeTravelMode(){document.querySelector('#travelMode').classList.remove('open');document.querySelector('#travelMode').setAttribute('aria-hidden','true');document.body.classList.remove('no-scroll');}
+document.querySelector('#travelModeBtn').addEventListener('click',openTravelMode);
+document.querySelector('#closeTravelMode').addEventListener('click',closeTravelMode);
+document.querySelector('#closeTravelBackdrop').addEventListener('click',closeTravelMode);
 
 document.querySelector('#openSightPicker').addEventListener('click',openSightPicker);
 document.querySelector('#closeSightPicker').addEventListener('click',closeSightPicker);
@@ -378,8 +441,9 @@ document.querySelector('#copyBtn').addEventListener('click',async()=>{
 });
 
 try{
+  Object.assign(sightImageCache,JSON.parse(sessionStorage.getItem('kansaiSightImages')||'{}'));
   const saved=JSON.parse(localStorage.getItem('kansaiPlannerPrefs'));
-  if(saved){Object.assign(state,saved,{day:0});if(!Array.isArray(state.sights))state.sights=[...allSightIds];document.querySelectorAll('.segmented').forEach(group=>group.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.value===state[group.dataset.control])));document.querySelectorAll('.chips button').forEach(b=>b.classList.toggle('active',state.interests.includes(b.dataset.value)));const radio=document.querySelector(`input[name="stay"][value="${state.stay}"]`);if(radio){radio.checked=true;document.querySelectorAll('.radio-row').forEach(x=>x.classList.toggle('active',x.contains(radio)));}}
+  if(saved){Object.assign(state,saved,{day:0});state.hiddenStops=state.hiddenStops||{};state.manualOrders=state.manualOrders||{};if(!Array.isArray(state.sights))state.sights=[...allSightIds];document.querySelectorAll('.segmented').forEach(group=>group.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.value===state[group.dataset.control])));document.querySelectorAll('.chips button').forEach(b=>b.classList.toggle('active',state.interests.includes(b.dataset.value)));const radio=document.querySelector(`input[name="stay"][value="${state.stay}"]`);if(radio){radio.checked=true;document.querySelectorAll('.radio-row').forEach(x=>x.classList.toggle('active',x.contains(radio)));}}
 }catch{}
 
 renderAll();

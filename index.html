@@ -94,7 +94,7 @@
         <div class="itinerary-panel" aria-live="polite">
           <div class="result-head">
             <div><p class="section-kicker">YOUR KANSAI WEEK</p><h2 id="routeTitle">冬日关西 · 经典平衡版</h2><p id="routeSummary">2 个住宿基地 · 约 46 个交通小时段已优化</p></div>
-            <div class="result-actions"><button id="copyBtn" title="复制行程">复制</button><button id="printBtn" title="打印或存为 PDF">打印</button></div>
+            <div class="result-actions"><button id="travelModeBtn" class="travel-mode-btn" title="打开手机旅行模式">旅行模式</button><button id="copyBtn" title="复制行程">复制</button><button id="printBtn" title="打印或存为 PDF">打印</button></div>
           </div>
           <div class="day-tabs" id="dayTabs" role="tablist" aria-label="选择日期"></div>
           <article class="day-detail" id="dayDetail"></article>
@@ -165,6 +165,13 @@
 
   <footer><div class="wrap"><div class="brand"><span>関西</span><b>七日</b></div><p>为 2026.12.20–12.26 关西之旅定制</p><a href="#top">回到顶部 ↑</a></div></footer>
   <div class="toast" id="toast" role="status"></div>
+  <div class="travel-mode" id="travelMode" aria-hidden="true">
+    <button class="travel-backdrop" id="closeTravelBackdrop" aria-label="关闭旅行模式"></button>
+    <section class="travel-sheet" role="dialog" aria-modal="true" aria-labelledby="travelModeTitle">
+      <header><div><p>ON THE GO</p><h2 id="travelModeTitle">今天怎么走</h2></div><button id="closeTravelMode" aria-label="关闭旅行模式">×</button></header>
+      <div id="travelContent"></div>
+    </section>
+  </div>
   <script src="app.js"></script>
 </body>
 </html>
