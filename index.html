@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="大阪、京都、神户、奈良 7 天 6 晚智能路线规划，含交通时间、住宿建议与每日动线。" />
+  <meta name="theme-color" content="#172846" />
+  <title>关西七日 · 智能旅行规划</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero" id="top">
+    <nav class="nav wrap" aria-label="主导航">
+      <a class="brand" href="#top" aria-label="回到顶部"><span>関西</span><b>七日</b></a>
+      <div class="nav-links">
+        <a href="#planner">生成路线</a><a href="#stays">住宿</a><a href="#notes">出发须知</a>
+      </div>
+      <button class="nav-cta" data-scroll="#planner">开始规划</button>
+    </nav>
+    <div class="hero-art" aria-hidden="true"></div>
+    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="hero-content wrap">
+      <p class="eyebrow">OSAKA · KYOTO · KOBE · NARA</p>
+      <h1>第一次关西，<br><em>别把时间浪费在绕路上。</em></h1>
+      <p class="hero-lead">按你的节奏、兴趣和住宿偏好，生成一份真的走得通的 7 天 6 晚路线。每一段交通、步行和换乘都替你拆好了。</p>
+      <div class="trip-strip" role="group" aria-label="航班信息">
+        <div><span>抵达</span><strong>12月20日 · 13:15</strong><small>关西机场 KIX</small></div>
+        <i aria-hidden="true">→</i>
+        <div><span>返程</span><strong>12月26日 · 13:30</strong><small>关西机场 KIX</small></div>
+        <button data-scroll="#planner">定制我的路线 <b>↗</b></button>
+      </div>
+    </div>
+    <div class="hero-caption">冬日关西 · 2026</div>
+  </header>
+
+  <main>
+    <section class="intro wrap">
+      <div><p class="section-kicker">SMART ROUTE</p><h2>四座城，不必四处换酒店</h2></div>
+      <p>默认采用「大阪 4 晚＋京都 2 晚」：机场、奈良、神户都能顺路串起；京都则留宿两晚，避开早晚通勤。想全程只住大阪，也可以一键切换。</p>
+    </section>
+
+    <section class="planner-section" id="planner">
+      <div class="wrap planner-grid">
+        <aside class="controls-card">
+          <div class="controls-head"><span>01</span><div><p>告诉我你的偏好</p><h2>路线生成器</h2></div></div>
+
+          <fieldset>
+            <legend>旅行节奏</legend>
+            <div class="segmented" data-control="pace">
+              <button data-value="slow">松弛</button><button class="active" data-value="balanced">刚刚好</button><button data-value="full">充实</button>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>最想体验 <small>可多选</small></legend>
+            <div class="chips" data-control="interests">
+              <button class="active" data-value="history">⛩ 古寺历史</button>
+              <button class="active" data-value="food">🍜 美食市集</button>
+              <button data-value="view">🌃 城市夜景</button>
+              <button data-value="nature">🌿 自然慢游</button>
+              <button data-value="shop">🛍 购物</button>
+              <button data-value="photo">📷 拍照出片</button>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>具体景点 <small>按城市选择</small></legend>
+            <button class="sight-picker-btn" id="openSightPicker" type="button">
+              <span><b>选择想去的景点</b><small id="sightCount">已选 22 / 45 个景点</small></span><i>打开清单 →</i>
+            </button>
+          </fieldset>
+
+          <fieldset>
+            <legend>住宿方式</legend>
+            <label class="radio-row active"><input type="radio" name="stay" value="balanced" checked><span><b>大阪＋京都双基地</b><small>推荐 · 少通勤，也不频繁搬行李</small></span><i>推荐</i></label>
+            <label class="radio-row"><input type="radio" name="stay" value="one"><span><b>全程住大阪</b><small>最省心 · 京都往返会多约 1 小时</small></span></label>
+            <label class="radio-row"><input type="radio" name="stay" value="kyoto"><span><b>京都沉浸 3 晚</b><small>古都慢游 · 多一次行李移动</small></span></label>
+          </fieldset>
+
+          <fieldset>
+            <legend>酒店预算 / 晚</legend>
+            <div class="segmented" data-control="budget">
+              <button data-value="value">¥600–900</button><button class="active" data-value="mid">¥900–1,500</button><button data-value="premium">¥1,500+</button>
+            </div>
+          </fieldset>
+
+          <button class="generate-btn" id="generateBtn"><span>生成我的 7 日路线</span><b>重新计算 ↻</b></button>
+          <p class="saved-note" id="savedNote">选择会自动保存在这台设备</p>
+        </aside>
+
+        <div class="itinerary-panel" aria-live="polite">
+          <div class="result-head">
+            <div><p class="section-kicker">YOUR KANSAI WEEK</p><h2 id="routeTitle">冬日关西 · 经典平衡版</h2><p id="routeSummary">2 个住宿基地 · 约 46 个交通小时段已优化</p></div>
+            <div class="result-actions"><button id="copyBtn" title="复制行程">复制</button><button id="printBtn" title="打印或存为 PDF">打印</button></div>
+          </div>
+          <div class="day-tabs" id="dayTabs" role="tablist" aria-label="选择日期"></div>
+          <article class="day-detail" id="dayDetail"></article>
+          <div class="route-tip" id="routeTip"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="route-overview wrap">
+      <div class="section-heading"><div><p class="section-kicker">THE LOGIC</p><h2>这条路线为什么顺</h2></div><p>把相邻景点放在同一天，以铁路为主、巴士为辅。京都避开容易堵车的长距离巴士；机场日不塞满景点。</p></div>
+      <div class="logic-grid">
+        <article class="logic-card navy"><span>01</span><h3>落地住难波</h3><p>南海电铁直达，第二天逛大阪、去奈良也方便。</p><div class="mini-route">KIX <i>34–45 min</i> 难波</div></article>
+        <article class="logic-card red"><span>02</span><h3>京都连续住</h3><p>伏见稻荷、东山、岚山分区玩，不来回折返大阪。</p><div class="mini-route">东山 <i>留宿</i> 岚山</div></article>
+        <article class="logic-card cream"><span>03</span><h3>奈良顺路回大阪</h3><p>京都退房后寄存行李，游完奈良搭近铁回难波。</p><div class="mini-route">京都 <i>45 min</i> 奈良 <i>40 min</i> 大阪</div></article>
+        <article class="logic-card photo"><span>04</span><h3>神户放在返程前</h3><p>港湾夜景之后回大阪，隔天从难波直奔机场。</p></article>
+      </div>
+    </section>
+
+    <section class="stays-section" id="stays">
+      <div class="wrap">
+        <div class="section-heading light"><div><p class="section-kicker">WHERE TO STAY</p><h2>住对车站，比住得豪华更重要</h2></div><p>以下按交通便利度推荐区域与酒店示例；价格随日期变化，请以预订页为准。12 月下旬建议尽早锁定可取消房价。</p></div>
+        <div class="hotel-tabs" id="hotelTabs"><button class="active" data-city="osaka">大阪 · 难波</button><button data-city="kyoto">京都 · 车站/四条</button></div>
+        <div class="hotel-grid" id="hotelGrid"></div>
+      </div>
+    </section>
+
+    <section class="notes wrap" id="notes">
+      <div class="note-title"><p class="section-kicker">BEFORE YOU GO</p><h2>出发前只记住这 6 件事</h2></div>
+      <div class="notes-list">
+        <article><b>01</b><div><h3>航班日预留 3 小时</h3><p>13:30 起飞，建议 09:45 从难波出发，约 10:30 抵达 KIX。</p></div></article>
+        <article><b>02</b><div><h3>ICOCA 比研究通票更省脑</h3><p>本路线铁路公司多，先刷 ICOCA；是否买票券再按当天乘车量决定。</p></div></article>
+        <article><b>03</b><div><h3>京都优先坐铁路</h3><p>岚山坐 JR / 阪急，伏见稻荷坐 JR / 京阪；长距离巴士容易受拥堵影响。</p></div></article>
+        <article><b>04</b><div><h3>冬季 17:00 前天黑</h3><p>寺院和公园放白天，难波、神户港、梅田夜景放傍晚以后。</p></div></article>
+        <article><b>05</b><div><h3>行李用寄送解放双手</h3><p>大阪→京都可用宅急便或酒店行李服务；奈良日只背随身包。</p></div></article>
+        <article><b>06</b><div><h3>营业时间临行再确认</h3><p>寺社法会、天气与年末安排可能临时调整，网站提供官方链接核对。</p></div></article>
+      </div>
+    </section>
+
+    <section class="sources">
+      <div class="wrap source-inner"><div><h2>信息依据</h2><p>路线时间为常规情况下的近似值，未计等车、排队与临时延误。</p></div><div class="source-links">
+        <a href="https://www.nankai.co.jp/en_railway/access-fromkix" target="_blank" rel="noreferrer">南海电铁机场交通 ↗</a>
+        <a href="https://kyoto.travel/en/getting-around" target="_blank" rel="noreferrer">京都官方交通指南 ↗</a>
+        <a href="https://www.visitnara.jp/" target="_blank" rel="noreferrer">奈良官方旅游指南 ↗</a>
+        <a href="https://www.feel-kobe.jp/en/" target="_blank" rel="noreferrer">神户官方旅游指南 ↗</a>
+        <a href="https://osaka-info.jp/en/" target="_blank" rel="noreferrer">大阪官方旅游指南 ↗</a>
+      </div></div>
+    </section>
+  </main>
+
+  <div class="sight-modal" id="sightModal" aria-hidden="true">
+    <button class="modal-backdrop" id="closeSightBackdrop" aria-label="关闭景点选择"></button>
+    <section class="sight-drawer" role="dialog" aria-modal="true" aria-labelledby="sightModalTitle">
+      <header class="sight-drawer-head">
+        <div><p class="section-kicker">PICK YOUR PLACES</p><h2 id="sightModalTitle">这趟旅程，你想去哪里？</h2><p>选中的景点会自动排入最顺路的日期。选择太多时，系统会优先保留你的选择并提醒行程强度。</p></div>
+        <button class="modal-close" id="closeSightPicker" type="button" aria-label="关闭">×</button>
+      </header>
+      <div class="city-picker-tabs" id="cityPickerTabs" role="tablist">
+        <button class="active" data-picker-city="osaka">大阪 <b>12</b></button>
+        <button data-picker-city="kyoto">京都 <b>14</b></button>
+        <button data-picker-city="nara">奈良 <b>8</b></button>
+        <button data-picker-city="kobe">神户周边 <b>11</b></button>
+      </div>
+      <div class="sight-toolbar"><p id="citySightHint">大阪 · 经典城区与夜景</p><div><button id="selectCityAll" type="button">全选本城</button><button id="clearCityAll" type="button">清空本城</button></div></div>
+      <div class="sight-options" id="sightOptions"></div>
+      <footer class="sight-drawer-foot"><p><b id="modalSightCount">22</b> 个景点已选择</p><button id="applySights" type="button">保存选择并生成路线 <span>↗</span></button></footer>
+    </section>
+  </div>
+
+  <footer><div class="wrap"><div class="brand"><span>関西</span><b>七日</b></div><p>为 2026.12.20–12.26 关西之旅定制</p><a href="#top">回到顶部 ↑</a></div></footer>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
