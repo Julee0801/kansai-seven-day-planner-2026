@@ -29,7 +29,11 @@ const attractions = {
     {id:'kaiyukan',name:'大阪海游馆',meta:'亲子雨天 · 约 3 小时',wiki:'Osaka_Aquarium_Kaiyukan'},
     {id:'sumiyoshi',name:'住吉大社',meta:'古社建筑 · 约 90 分钟',wiki:'Sumiyoshi-taisha'},
     {id:'teamlab',name:'teamLab 大阪长居植物园',meta:'户外夜展 · 约 2 小时',wiki:'Nagai_Botanical_Garden',commons:'Nagai Botanical Garden Osaka'},
-    {id:'usj',name:'日本环球影城 USJ',meta:'全日项目 · 必须预约',wiki:'Universal_Studios_Japan'}
+    {id:'usj',name:'日本环球影城 USJ',meta:'全日项目 · 必须预约',wiki:'Universal_Studios_Japan'},
+    {id:'nakazakicho',name:'中崎町老屋咖啡街',meta:'本地生活 · 町屋与古着店',wiki:'Nakazakichō_Station',commons:'Nakazakicho Osaka',local:true,baike:'中崎町'},
+    {id:'tenjinbashi',name:'天神桥筋商店街与天满',meta:'本地生活 · 市场与居酒屋',wiki:'Tenjinbashisuji_Sixth_Street_Station',commons:'Tenjinbashisuji Shopping Street',local:true,baike:'天神桥筋商店街'},
+    {id:'karahori',name:'空堀商店街',meta:'本地生活 · 老店与町屋巷弄',wiki:'Karahori_Shopping_Street',commons:'Karahori Shopping Street Osaka',local:true,baike:'空堀商店街'},
+    {id:'kizu-market',name:'大阪木津卸卖市场',meta:'本地早餐 · 建议上午前往',wiki:'Kizu_Wholesale_Market',commons:'Osaka Kizu Wholesale Market',local:true,baike:'大阪木津卸卖市场'}
   ],
   kyoto: [
     {id:'fushimi-inari',name:'伏见稻荷大社',meta:'千本鸟居 · 90–120 分钟',wiki:'Fushimi_Inari-taisha'},
@@ -45,7 +49,11 @@ const attractions = {
     {id:'nanzenji',name:'南禅寺与水路阁',meta:'红砖水道 · 约 90 分钟',wiki:'Nanzen-ji'},
     {id:'sanjusangendo',name:'三十三间堂',meta:'千尊观音 · 约 60 分钟',wiki:'Sanjūsangen-dō'},
     {id:'ryoanji',name:'龙安寺',meta:'枯山水 · 金阁寺附近',wiki:'Ryōan-ji'},
-    {id:'uji',name:'宇治平等院与抹茶街',meta:'京都近郊 · 半日',wiki:'Byōdō-in'}
+    {id:'uji',name:'宇治平等院与抹茶街',meta:'京都近郊 · 半日',wiki:'Byōdō-in'},
+    {id:'kamogawa-delta',name:'鸭川三角洲与出町柳',meta:'本地散步 · 河岸跳乌龟石',wiki:'Kamo_River',commons:'Kamogawa Delta Kyoto',local:true,baike:'鸭川三角洲'},
+    {id:'sanjo-kai',name:'京都三条会商店街',meta:'本地生活 · 800 米雨棚街',wiki:'Nijō_Station_(Kyoto)',commons:'Kyoto Sanjo-kai Shopping Street',local:true,baike:'京都三条会商店街'},
+    {id:'daitokuji-street',name:'大德寺街与新大宫商店街',meta:'本地生活 · 老铺与咖啡店',wiki:'Daitoku-ji',commons:'Shin Omiya Shopping Street Kyoto',local:true,baike:'大德寺 京都'},
+    {id:'ebisugawa',name:'夷川家具街',meta:'本地生活 · 家具老铺与独立店',wiki:'Kyoto_Imperial_Palace',commons:'Ebisugawa Street Kyoto',local:true,baike:'夷川通'}
   ],
   nara: [
     {id:'nara-park',name:'奈良公园与兴福寺',meta:'鹿群与古寺 · 免费区域',wiki:'Nara_Park'},
@@ -55,7 +63,11 @@ const attractions = {
     {id:'isuien',name:'依水园',meta:'借景庭园 · 约 60 分钟',wiki:'Isui-en'},
     {id:'yakushiji',name:'药师寺与唐招提寺',meta:'西之京 · 半日',wiki:'Yakushi-ji'},
     {id:'horyuji',name:'法隆寺',meta:'世界最古木构 · 半日',wiki:'Hōryū-ji'},
-    {id:'nara-museum',name:'奈良国立博物馆',meta:'佛教艺术 · 雨天',wiki:'Nara_National_Museum'}
+    {id:'nara-museum',name:'奈良国立博物馆',meta:'佛教艺术 · 雨天',wiki:'Nara_National_Museum'},
+    {id:'kyudaijoin',name:'名胜旧大乘院庭园',meta:'本地静赏 · 免费庭园景观',wiki:'Daijō-in',commons:'Former Daijoin Temple Garden Nara',local:true,baike:'旧大乘院庭园'},
+    {id:'hokkedo',name:'东大寺法华堂（三月堂）',meta:'本地深度 · 奈良时代佛像',wiki:'Hokke-dō',commons:'Hokkedo Todaiji Nara',local:true,baike:'东大寺法华堂'},
+    {id:'imaicho',name:'今井町古民居街区',meta:'本地深度 · 江户商家町',wiki:'Imaichō',commons:'Imaicho Kashihara Nara',local:true,baike:'今井町'},
+    {id:'nakanishi',name:'中西与三郎町家茶房',meta:'本地甜点 · 和果子与抹茶',wiki:'Naramachi',commons:'Naramachi traditional house',local:true,baike:'奈良町'}
   ],
   kobe: [
     {id:'nunobiki',name:'布引香草园',meta:'缆车山景 · 看天气',wiki:'Kobe_Nunobiki_Herb_Gardens'},
@@ -68,7 +80,11 @@ const attractions = {
     {id:'animal-kingdom',name:'神户动物王国',meta:'亲子互动 · 约 3 小时',wiki:'Kobe_Animal_Kingdom'},
     {id:'akashi-bridge',name:'明石海峡大桥与舞子',meta:'海峡夕阳 · 神户西部',wiki:'Akashi_Kaikyo_Bridge'},
     {id:'himeji',name:'姬路城',meta:'神户周边 · 至少半日',wiki:'Himeji_Castle'},
-    {id:'nada-sake',name:'滩五乡清酒街',meta:'酒藏参观 · 东神户',wiki:'Nada-gogō'}
+    {id:'nada-sake',name:'滩五乡清酒街',meta:'酒藏参观 · 东神户',wiki:'Nada-gogō'},
+    {id:'suma-seaside',name:'须磨海滨与须磨浦',meta:'本地散步 · 海岸与山海电车',wiki:'Suma-ku,_Kobe',commons:'Suma Beach Kobe',local:true,baike:'须磨海滨公园'},
+    {id:'nagata',name:'长田铁人28号与商店街',meta:'本地生活 · 复古街与炒面饭',wiki:'Tetsujin_28-go',commons:'Tetsujin 28 go Kobe Nagata',local:true,baike:'铁人28号'},
+    {id:'higashiyama-market',name:'东山商店街与湊川市场',meta:'本地市场 · 熟食与日常采购',wiki:'Minatogawa_Station',commons:'Higashiyama Shopping Street Kobe',local:true,baike:'湊川市场'},
+    {id:'suma-rikyu',name:'须磨离宫公园',meta:'本地休闲 · 园林与大阪湾景色',wiki:'Suma_Rikyu_Park',commons:'Suma Rikyu Park',local:true,baike:'须磨离宫公园'}
   ]
 };
 const allSightIds = Object.values(attractions).flat().map(x=>x.id);
@@ -91,6 +107,10 @@ const extraPlans = {
   'kaiyukan':{day:1,time:'13:00',title:'大阪海游馆',desc:'围绕太平洋水槽单向游览，雨天尤其合适。',transit:'地铁中央线至大阪港｜约 35 分 · 约 10 km',tag:'nature'},
   'sumiyoshi':{day:1,time:'08:45',title:'住吉大社',desc:'看住吉造本殿与太鼓桥，清晨氛围安静。',transit:'南海本线 / 阪堺电车｜约 20 分 · 约 8 km',tag:'history'},
   'teamlab':{day:1,time:'19:30',title:'teamLab 大阪长居植物园',desc:'夜间户外数字艺术展，需提前购买指定日期门票。',transit:'地铁御堂筋线至长居｜约 30 分 · 约 9 km',tag:'view'},
+  'nakazakicho':{day:1,time:'15:10',title:'中崎町老屋咖啡街',desc:'钻进梅田东侧的旧民居巷弄，逛独立咖啡馆、古着店与杂货铺。',transit:'地铁谷町线至中崎町｜约 20 分 · 约 6 km',tag:'food'},
+  'tenjinbashi':{day:1,time:'17:10',title:'天神桥筋商店街 → 天满',desc:'从居民日常商店一路逛到天满市场与站前居酒屋，晚餐选择密集。',transit:'JR 环状线 / 地铁堺筋线｜约 20 分 · 约 5 km',tag:'food'},
+  'karahori':{day:1,time:'13:35',title:'空堀商店街',desc:'在保留战前巷弄肌理的街区找老铺、町屋改造店和小型工房。',transit:'地铁长堀鹤见绿地线至松屋町｜约 15 分 · 约 3 km',tag:'shop'},
+  'kizu-market':{day:1,time:'08:15',title:'大阪木津卸卖市场',desc:'跟着本地采购节奏吃海鲜早餐；多数店铺中午前后结束营业。',transit:'难波步行约 15 分 / 地铁大国町站约 5 分',tag:'food'},
   'nijo':{day:3,time:'13:20',title:'二条城',desc:'参观二之丸御殿与庭园，留意冬季闭馆时间。',transit:'地铁东西线至二条城前｜约 35 分',tag:'history'},
   'imperial-palace':{day:2,time:'14:10',title:'京都御所',desc:'御苑宽阔，适合在寺社密集行程中放慢脚步。',transit:'地铁乌丸线至今出川｜约 25 分',tag:'history'},
   'ginkakuji':{day:2,time:'14:30',title:'银阁寺 → 哲学之道',desc:'从银阁寺沿水渠南行，冬季更清静。',transit:'京阪＋巴士 / 出租车｜约 35 分',tag:'nature'},
@@ -98,16 +118,28 @@ const extraPlans = {
   'sanjusangendo':{day:2,time:'11:35',title:'三十三间堂',desc:'在长殿中观看千尊观音像，室内参观约一小时。',transit:'京阪七条站步行约 7 分',tag:'history'},
   'ryoanji':{day:3,time:'15:00',title:'龙安寺',desc:'与金阁寺同区安排，观看著名枯山水庭园。',transit:'金阁寺前巴士 / 出租车｜约 15 分 · 约 2 km',tag:'history'},
   'uji':{day:2,time:'08:20',title:'宇治平等院与抹茶街',desc:'凤凰堂、宇治川和表参道组成半日近郊路线。',transit:'JR 奈良线京都→宇治｜约 20 分 · 约 17 km',tag:'history'},
+  'kamogawa-delta':{day:2,time:'15:10',title:'鸭川三角洲 → 出町柳',desc:'坐在两河交汇处看本地人散步骑车，再穿过跳石去出町桝形商店街。',transit:'京阪出町柳站步行约 5 分',tag:'nature'},
+  'sanjo-kai':{day:3,time:'16:10',title:'京都三条会商店街',desc:'在 800 米有盖商店街里找熟食、咖啡与居民日常小店。',transit:'二条城步行约 12 分 · 约 1 km',tag:'food'},
+  'daitokuji-street':{day:3,time:'15:25',title:'大德寺街 → 新大宫商店街',desc:'老式家庭商铺与年轻咖啡店并存，是北京都很松弛的生活街区。',transit:'金阁寺前巴士 / 出租车｜约 15 分 · 约 3 km',tag:'shop'},
+  'ebisugawa':{day:2,time:'16:40',title:'夷川家具街',desc:'沿京都御苑南侧看家具老铺、工艺店和新开的生活方式小店。',transit:'地铁丸太町站步行约 8 分',tag:'shop'},
   'isuien':{day:4,time:'09:45',title:'依水园',desc:'以若草山为借景的回游庭园，东大寺前顺路加入。',transit:'兴福寺步行约 10 分 · 约 700 m',tag:'nature'},
   'yakushiji':{day:4,time:'14:30',title:'药师寺 → 唐招提寺',desc:'两座世界遗产相距不远，适合半日深度游。',transit:'近铁奈良→西之京｜约 20 分 · 约 6 km',tag:'history'},
   'horyuji':{day:4,time:'13:30',title:'法隆寺',desc:'世界现存最古老木构建筑群，至少预留半天。',transit:'JR 奈良→法隆寺＋巴士｜约 40 分 · 约 14 km',tag:'history'},
   'nara-museum':{day:4,time:'13:20',title:'奈良国立博物馆',desc:'佛教造像与奈良文化收藏，适合雨天或历史爱好者。',transit:'奈良公园内步行约 10 分',tag:'history'},
+  'kyudaijoin':{day:4,time:'15:45',title:'名胜旧大乘院庭园',desc:'在奈良町边缘安静看池泉庭园，适合避开公园主路人潮。',transit:'奈良町步行约 10 分 · 约 800 m',tag:'nature'},
+  'hokkedo':{day:4,time:'11:45',title:'东大寺法华堂（三月堂）',desc:'从二月堂继续步行，近距离看保存完整的奈良时代佛像群。',transit:'东大寺大佛殿步行约 12 分 · 约 800 m',tag:'history'},
+  'imaicho':{day:4,time:'14:10',title:'今井町古民居街区',desc:'在保存完整的江户商家町散步，找町家、酿造店和小型展馆。',transit:'近铁奈良→大和八木，步行至今井町｜约 45 分 · 约 27 km',tag:'history'},
+  'nakanishi':{day:4,time:'16:20',title:'中西与三郎町家茶房',desc:'在奈良町老铺吃季节和果子与抹茶，作为步行日的缓冲休息。',transit:'奈良町内步行约 5–10 分',tag:'food'},
   'rokko':{day:5,time:'15:30',title:'六甲山 · 摩耶山夜景',desc:'天气晴朗时再上山，夜间注意缆车末班时间。',transit:'三宫→六甲站＋巴士缆车｜约 60 分 · 约 18 km',tag:'view'},
   'arima':{day:5,time:'13:00',title:'有马温泉',desc:'泡金泉或银泉、逛温泉老街，建议至少预留半天。',transit:'三宫直达巴士约 35–45 分 · 约 24 km',tag:'nature'},
   'animal-kingdom':{day:5,time:'13:30',title:'神户动物王国',desc:'室内外动物互动丰富，家庭游客可替代北野街区。',transit:'三宫乘 Port Liner｜约 20 分 · 约 8 km',tag:'nature'},
   'akashi-bridge':{day:5,time:'16:10',title:'明石海峡大桥 · 舞子公园',desc:'在海峡边看大桥与日落，蓝调时刻最漂亮。',transit:'JR 三宫→舞子｜约 25 分 · 约 18 km',tag:'view'},
   'himeji':{day:5,time:'08:40',title:'姬路城',desc:'从神户继续向西的半日项目，城内阶梯较陡。',transit:'JR 新快速三宫→姬路｜约 40 分 · 约 55 km',tag:'history'},
   'nada-sake':{day:5,time:'14:20',title:'滩五乡清酒街',desc:'参观酒藏与资料馆，可与神户港或六甲山搭配。',transit:'阪神本线至鱼崎 / 住吉｜约 20 分 · 约 9 km',tag:'food'}
+  ,'suma-seaside':{day:5,time:'15:40',title:'须磨海滨 → 须磨浦',desc:'沿海岸看当地人遛狗与慢跑，晴天可把山海电车和夕阳一起拍下。',transit:'JR 三宫→须磨 / 须磨海滨公园｜约 15 分 · 约 9 km',tag:'nature'},
+  'nagata':{day:5,time:'14:10',title:'长田铁人28号 → 商店街',desc:'看铁人纪念像，再到复古商店街尝长田名物炒面饭与牛筋烧。',transit:'JR 三宫→新长田｜约 10 分 · 约 7 km',tag:'food'},
+  'higashiyama-market':{day:5,time:'14:30',title:'东山商店街与湊川市场',desc:'逛神户厨房般的在地市场，适合买熟食、水果和便当。',transit:'地铁三宫→湊川公园｜约 10 分 · 约 4 km',tag:'food'},
+  'suma-rikyu':{day:5,time:'13:40',title:'须磨离宫公园',desc:'本地家庭常去的园林公园，可眺望大阪湾，冬日散步节奏舒适。',transit:'山阳电铁月见山站步行约 10 分 · 约 10 km',tag:'nature'}
 };
 
 const hotels = {
@@ -256,6 +288,7 @@ function buildDays(){
 
 let currentDays = buildDays();
 let pickerCity = 'osaka';
+let localOnly = false;
 let draftSights = [...state.sights];
 const sightImageCache = {};
 
@@ -305,10 +338,14 @@ function renderHotel(city='osaka'){
 }
 
 function renderSightPicker(){
-  const cityNames = {osaka:'大阪 · 经典城区与夜景',kyoto:'京都 · 寺社与古都街区',nara:'奈良 · 公园寺社单向动线',kobe:'神户 · 山景、洋馆与港湾'};
+  const cityNames = {osaka:'大阪 · 经典城区与本地生活',kyoto:'京都 · 寺社与社区街区',nara:'奈良 · 公园寺社与古民居',kobe:'神户 · 山海、港湾与社区市场'};
   document.querySelector('#citySightHint').textContent = cityNames[pickerCity];
-  document.querySelectorAll('[data-picker-city]').forEach(b=>b.classList.toggle('active',b.dataset.pickerCity===pickerCity));
-  document.querySelector('#sightOptions').innerHTML = attractions[pickerCity].map(a=>`<label class="sight-option ${draftSights.includes(a.id)?'selected':''}"><input type="checkbox" value="${a.id}" ${draftSights.includes(a.id)?'checked':''}><span class="photo-shell"><img class="sight-photo ${sightImageCache[a.id]?'loaded':''}" src="${sightImageCache[a.id]||'assets/kansai-winter-hero.png'}" data-id="${a.id}" data-wiki="${a.wiki}" data-commons="${a.commons||a.wiki.replaceAll('_',' ')}" alt="${a.name}标志性景观" loading="lazy"></span><span class="sight-check">✓</span><span class="sight-copy"><b>${a.name}</b><small>${a.meta}</small></span></label>`).join('');
+  document.querySelectorAll('[data-picker-city]').forEach(b=>{b.classList.toggle('active',b.dataset.pickerCity===pickerCity);b.querySelector('b').textContent=attractions[b.dataset.pickerCity].length;});
+  const visibleAttractions = localOnly ? attractions[pickerCity].filter(a=>a.local) : attractions[pickerCity];
+  const baikeUrl = a => `https://baike.baidu.com/search?word=${encodeURIComponent(a.baike||a.name)}`;
+  document.querySelector('#toggleLocalOnly').classList.toggle('active',localOnly);
+  document.querySelector('#toggleLocalOnly').textContent = localOnly ? '显示全部景点' : '只看本地人推荐';
+  document.querySelector('#sightOptions').innerHTML = visibleAttractions.map(a=>`<article class="sight-option ${draftSights.includes(a.id)?'selected':''}"><a class="photo-shell" href="${baikeUrl(a)}" target="_blank" rel="noreferrer" title="查看${a.name}百科介绍"><img class="sight-photo ${sightImageCache[a.id]?'loaded':''}" src="${sightImageCache[a.id]||'assets/kansai-winter-hero.png'}" data-id="${a.id}" data-wiki="${a.wiki}" data-commons="${a.commons||a.wiki.replaceAll('_',' ')}" alt="${a.name}标志性景观" loading="lazy"><span class="photo-link">百科 ↗</span></a><label class="sight-main"><input type="checkbox" value="${a.id}" ${draftSights.includes(a.id)?'checked':''}><span class="sight-check">✓</span><span class="sight-copy"><b>${a.name}</b>${a.local?'<em>本地人常去</em>':''}<small>${a.meta}</small><span>点击图片查看介绍 ↗</span></span></label></article>`).join('');
   document.querySelector('#modalSightCount').textContent = draftSights.length;
   loadSightImages();
 }
@@ -427,6 +464,7 @@ document.querySelector('#sightOptions').addEventListener('change',e=>{
 });
 document.querySelector('#selectCityAll').addEventListener('click',()=>{draftSights=[...new Set([...draftSights,...attractions[pickerCity].map(x=>x.id)])];renderSightPicker();});
 document.querySelector('#clearCityAll').addEventListener('click',()=>{const cityIds=attractions[pickerCity].map(x=>x.id);draftSights=draftSights.filter(x=>!cityIds.includes(x));renderSightPicker();});
+document.querySelector('#toggleLocalOnly').addEventListener('click',()=>{localOnly=!localOnly;renderSightPicker();});
 document.querySelector('#applySights').addEventListener('click',()=>{
   state.sights=[...draftSights];state.customizedSights=true;closeSightPicker();renderAll(true);toast(`已按 ${state.sights.length} 个景点生成路线`);document.querySelector('.itinerary-panel').scrollIntoView({behavior:'smooth',block:'start'});
 });

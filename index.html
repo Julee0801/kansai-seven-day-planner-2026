@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261115-2" />
+  <link rel="stylesheet" href="styles.css?v=20261116-3" />
 </head>
 <body>
   <header class="hero" id="top">
@@ -152,12 +152,12 @@
         <button class="modal-close" id="closeSightPicker" type="button" aria-label="关闭">×</button>
       </header>
       <div class="city-picker-tabs" id="cityPickerTabs" role="tablist">
-        <button class="active" data-picker-city="osaka">大阪 <b>12</b></button>
-        <button data-picker-city="kyoto">京都 <b>14</b></button>
-        <button data-picker-city="nara">奈良 <b>8</b></button>
-        <button data-picker-city="kobe">神户周边 <b>11</b></button>
+        <button class="active" data-picker-city="osaka">大阪 <b>16</b></button>
+        <button data-picker-city="kyoto">京都 <b>18</b></button>
+        <button data-picker-city="nara">奈良 <b>12</b></button>
+        <button data-picker-city="kobe">神户周边 <b>15</b></button>
       </div>
-      <div class="sight-toolbar"><p id="citySightHint">大阪 · 经典城区与夜景</p><div><button id="selectCityAll" type="button">全选本城</button><button id="clearCityAll" type="button">清空本城</button></div></div>
+      <div class="sight-toolbar"><p id="citySightHint">大阪 · 经典城区与本地生活</p><div><button class="local-filter" id="toggleLocalOnly" type="button">只看本地人推荐</button><button id="selectCityAll" type="button">全选本城</button><button id="clearCityAll" type="button">清空本城</button></div></div>
       <div class="sight-options" id="sightOptions"></div>
       <footer class="sight-drawer-foot"><p><b id="modalSightCount">22</b> 个景点已选择</p><button id="applySights" type="button">保存选择并生成路线 <span>↗</span></button></footer>
     </section>
@@ -172,6 +172,6 @@
       <div id="travelContent"></div>
     </section>
   </div>
-  <script src="app.js?v=20261115-2"></script>
+  <script src="app.js?v=20261116-3"></script>
 </body>
 </html>
