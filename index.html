@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261116-4" />
+  <link rel="stylesheet" href="styles.css?v=20261116-5" />
 </head>
 <body>
   <header class="hero" id="top">
@@ -38,8 +38,8 @@
 
   <main>
     <section class="intro wrap">
-      <div><p class="section-kicker">SMART ROUTE</p><h2>四座城，不必四处换酒店</h2></div>
-      <p>默认采用「大阪 4 晚＋京都 2 晚」：机场、奈良、神户都能顺路串起；京都则留宿两晚，避开早晚通勤。想全程只住大阪，也可以一键切换。</p>
+      <div><p class="section-kicker">SMART ROUTE</p><h2>先住京都，再顺路玩回大阪</h2></div>
+      <p>默认采用「京都 3 晚＋心斋桥 2 晚＋USJ 温泉酒店 1 晚」：12/23 先到大阪寄存行李再去奈良，12/24 串联有马温泉与神户，最后一天专注环球影城。</p>
     </section>
 
     <section class="planner-section" id="planner">
@@ -73,11 +73,10 @@
             </button>
           </fieldset>
 
-          <fieldset>
-            <legend>住宿方式</legend>
-            <label class="radio-row active"><input type="radio" name="stay" value="balanced" checked><span><b>大阪＋京都双基地</b><small>推荐 · 少通勤，也不频繁搬行李</small></span><i>推荐</i></label>
-            <label class="radio-row"><input type="radio" name="stay" value="one"><span><b>全程住大阪</b><small>最省心 · 京都往返会多约 1 小时</small></span></label>
-            <label class="radio-row"><input type="radio" name="stay" value="kyoto"><span><b>京都沉浸 3 晚</b><small>古都慢游 · 多一次行李移动</small></span></label>
+          <fieldset class="date-plan-fieldset">
+            <legend>每天去哪里 <small>可逐日调整</small></legend>
+            <div class="date-plan-grid" id="datePlanGrid"></div>
+            <button class="reset-plan-btn" id="resetDatePlan" type="button">恢复你的默认安排</button>
           </fieldset>
 
           <fieldset>
@@ -106,17 +105,17 @@
     <section class="route-overview wrap">
       <div class="section-heading"><div><p class="section-kicker">THE LOGIC</p><h2>这条路线为什么顺</h2></div><p>把相邻景点放在同一天，以铁路为主、巴士为辅。京都避开容易堵车的长距离巴士；机场日不塞满景点。</p></div>
       <div class="logic-grid">
-        <article class="logic-card navy"><span>01</span><h3>落地住难波</h3><p>南海电铁直达，第二天逛大阪、去奈良也方便。</p><div class="mini-route">KIX <i>34–45 min</i> 难波</div></article>
-        <article class="logic-card red"><span>02</span><h3>京都连续住</h3><p>伏见稻荷、东山、岚山分区玩，不来回折返大阪。</p><div class="mini-route">东山 <i>留宿</i> 岚山</div></article>
-        <article class="logic-card cream"><span>03</span><h3>奈良顺路回大阪</h3><p>京都退房后寄存行李，游完奈良搭近铁回难波。</p><div class="mini-route">京都 <i>45 min</i> 奈良 <i>40 min</i> 大阪</div></article>
-        <article class="logic-card photo"><span>04</span><h3>神户放在返程前</h3><p>港湾夜景之后回大阪，隔天从难波直奔机场。</p></article>
+        <article class="logic-card navy"><span>01</span><h3>落地直接住京都</h3><p>第一天搭 HARUKA 进京都，连续三晚不搬行李。</p><div class="mini-route">KIX <i>75–80 min</i> 京都</div></article>
+        <article class="logic-card red"><span>02</span><h3>先放行李再去奈良</h3><p>12/23 京都退房，心斋桥寄存后轻装往返奈良。</p><div class="mini-route">京都 <i>大阪寄存</i> 奈良</div></article>
+        <article class="logic-card cream"><span>03</span><h3>有马接神户不折返</h3><p>大阪先去有马泡汤，再顺路到三宫和神户港。</p><div class="mini-route">大阪 <i>有马</i> 神户 <i>大阪</i></div></article>
+        <article class="logic-card photo"><span>04</span><h3>USJ 后直接泡汤</h3><p>12/25 行李先放环球城酒店，闭园后步行回温泉或大浴场。</p></article>
       </div>
     </section>
 
     <section class="stays-section" id="stays">
       <div class="wrap">
         <div class="section-heading light"><div><p class="section-kicker">WHERE TO STAY</p><h2>住对车站，比住得豪华更重要</h2></div><p>以下按交通便利度推荐区域与酒店示例；价格随日期变化，请以预订页为准。12 月下旬建议尽早锁定可取消房价。</p></div>
-        <div class="hotel-tabs" id="hotelTabs"><button class="active" data-city="osaka">大阪 · 难波</button><button data-city="kyoto">京都 · 车站/四条</button></div>
+        <div class="hotel-tabs" id="hotelTabs"><button class="active" data-city="osaka">大阪 · 心斋桥</button><button data-city="kyoto">京都 · 车站/四条</button><button data-city="usj">USJ · 温泉酒店</button></div>
         <div class="hotel-grid" id="hotelGrid"></div>
       </div>
     </section>
@@ -124,7 +123,7 @@
     <section class="notes wrap" id="notes">
       <div class="note-title"><p class="section-kicker">BEFORE YOU GO</p><h2>出发前只记住这 6 件事</h2></div>
       <div class="notes-list">
-        <article><b>01</b><div><h3>航班日预留 3 小时</h3><p>13:30 起飞，建议 09:45 从难波出发，约 10:30 抵达 KIX。</p></div></article>
+        <article><b>01</b><div><h3>航班日预留 3 小时</h3><p>13:30 起飞，从环球城周边出发建议 08:30 左右退房，10:30 前抵达 KIX。</p></div></article>
         <article><b>02</b><div><h3>ICOCA 比研究通票更省脑</h3><p>本路线铁路公司多，先刷 ICOCA；是否买票券再按当天乘车量决定。</p></div></article>
         <article><b>03</b><div><h3>京都优先坐铁路</h3><p>岚山坐 JR / 阪急，伏见稻荷坐 JR / 京阪；长距离巴士容易受拥堵影响。</p></div></article>
         <article><b>04</b><div><h3>冬季 17:00 前天黑</h3><p>寺院和公园放白天，难波、神户港、梅田夜景放傍晚以后。</p></div></article>
@@ -172,6 +171,6 @@
       <div id="travelContent"></div>
     </section>
   </div>
-  <script src="app.js?v=20261116-4"></script>
+  <script src="app.js?v=20261116-5"></script>
 </body>
 </html>

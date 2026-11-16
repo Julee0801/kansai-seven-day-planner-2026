@@ -1,3 +1,15 @@
+const defaultDayPlans = ['kyoto-arrival','kyoto-east','kyoto-west','osaka-nara','arima-kobe','usj','departure'];
+const dayPlanOptions = {
+  'kyoto-arrival':'抵达 → 京都入住',
+  'kyoto-east':'京都 · 伏见稻荷＋东山',
+  'kyoto-west':'京都 · 岚山＋金阁寺',
+  'osaka-city':'大阪市内 · 城郭＋心斋桥',
+  'osaka-nara':'京都退房 → 大阪寄存 → 奈良半日',
+  'arima-kobe':'大阪 → 有马温泉＋神户 → 大阪',
+  'usj':'环球影城全日＋温泉酒店',
+  'departure':'退房 → 关西机场返程'
+};
+
 const state = {
   pace: 'balanced',
   interests: ['history', 'food'],
@@ -7,6 +19,7 @@ const state = {
   customizedSights: false,
   hiddenStops: {},
   manualOrders: {},
+  dayPlans: [...defaultDayPlans],
   day: 0
 };
 
@@ -145,14 +158,14 @@ const extraPlans = {
 const hotels = {
   osaka: {
     value: [
-      {tag:'性价比',name:'相铁 FRESA INN 大阪难波站前',desc:'近南海难波与地铁，机场日最轻松。',walk:'步行约 2–5 分钟',why:'早班 / 晚班友好',url:'https://sotetsu-hotels.com/fresa-inn/namba-ekimae/'},
-      {tag:'性价比',name:'Hotel Gracery Osaka Namba',desc:'位置安静，步行可到道顿堀和 OCAT。',walk:'难波站步行约 3 分钟',why:'动线均衡',url:'https://gracery.com/osaka-namba/'},
-      {tag:'公寓型',name:'MIMARU Osaka Namba Station',desc:'多人同行、需要厨房或较大空间时更合适。',walk:'日本桥附近',why:'家庭 / 朋友',url:'https://mimaruhotels.com/en/hotel/namba-station/'}
+      {tag:'心斋桥',name:'相铁 FRESA INN 大阪心斋桥',desc:'从长堀桥和心斋桥都方便，23–25 日连住很省力。',walk:'心斋桥商圈步行范围',why:'预算友好',url:'https://sotetsu-hotels.com/en/fresa-inn/shinsaibashi/'},
+      {tag:'心斋桥',name:'Vessel Inn 心斋桥',desc:'位置靠近南船场，逛街与晚餐都方便。',walk:'心斋桥站步行约 5 分钟',why:'早餐与性价比',url:'https://www.vessel-hotel.jp/inn/shinsaibashi/'},
+      {tag:'难波',name:'Hotel Gracery Osaka Namba',desc:'靠近 OCAT 与难波站，房间区域相对安静。',walk:'难波站步行约 3 分钟',why:'奈良往返方便',url:'https://gracery.com/osaka-namba/'}
     ],
     mid: [
-      {tag:'首选',name:'大阪难波日和酒店',desc:'南海难波站旁，机场、奈良与大阪市区都顺手。',walk:'南海难波步行约 2 分钟',why:'综合最省心',url:'https://nambahinode.com/'},
-      {tag:'交通王',name:'Swissôtel Nankai Osaka',desc:'就在南海难波站上方，拖行李几乎零负担。',walk:'车站直连',why:'机场最方便',url:'https://www.swissotel.com/hotels/osaka/'},
-      {tag:'设计感',name:'Cross Hotel Osaka',desc:'道顿堀与心斋桥之间，逛吃氛围最好。',walk:'难波步行约 8 分钟',why:'夜生活便利',url:'https://cross-osaka.orixhotelsandresorts.com/'}
+      {tag:'首选',name:'Hotel Nikko Osaka',desc:'心斋桥站直连，23 日放下行李再去奈良最方便。',walk:'心斋桥站 8 号口直连',why:'交通＋购物',url:'https://www.hno.co.jp/english/'},
+      {tag:'位置佳',name:'Cross Hotel Osaka',desc:'位于心斋桥和道顿堀之间，晚上回酒店非常顺路。',walk:'心斋桥站步行约 6 分钟',why:'夜生活便利',url:'https://cross-osaka.orixhotelsandresorts.com/'},
+      {tag:'交通王',name:'Swissôtel Nankai Osaka',desc:'南海难波站上方，去奈良和关西机场都直接。',walk:'南海难波站直连',why:'行李最省力',url:'https://www.swissotel.com/hotels/osaka/'}
     ],
     premium: [
       {tag:'景观',name:'Centara Grand Hotel Osaka',desc:'难波公园旁，高楼景观与餐饮选择丰富。',walk:'南海难波步行约 4 分钟',why:'高层夜景',url:'https://www.centarahotelsresorts.com/centaragrand/cgoj'},
@@ -176,12 +189,105 @@ const hotels = {
       {tag:'河畔',name:'The Ritz-Carlton Kyoto',desc:'鸭川边，环境安静且服务细致。',walk:'京都市役所附近',why:'河景与服务',url:'https://www.ritzcarlton.com/en/hotels/ukyrz-the-ritz-carlton-kyoto/overview/'},
       {tag:'现代',name:'Ace Hotel Kyoto',desc:'新风馆内，设计、咖啡与购物氛围浓。',walk:'乌丸御池站直连',why:'设计生活方式',url:'https://acehotel.com/kyoto/'}
     ]
+  },
+  usj: {
+    value: [
+      {tag:'首选',name:'The Singulari Hotel & SkySpa',desc:'环球城站旁，住客可使用顶层展望露天大浴场。',walk:'环球城站直连 · USJ 步行约 3 分钟',why:'大浴场免费',url:'https://www.candeohotels.com/en/singulari/'},
+      {tag:'真温泉',name:'Hotel Keihan Universal Tower',desc:'31 楼天然温泉可看夜景，适合乐园后恢复体力；温泉另收费。',walk:'USJ 大门步行约 2 分钟',why:'天然温泉',url:'https://tower.hotelkeihan.co.jp/'},
+      {tag:'真温泉',name:'LIBER HOTEL OSAKA',desc:'地下约 1,000 米涌出的天然温泉，设露天浴池与桑拿。',walk:'樱岛站旁 · 距环球城 1 站',why:'Spa 体验完整',url:'https://hotel-liber.jp/?wovn=en'}
+    ],
+    mid: [
+      {tag:'最方便',name:'The Singulari Hotel & SkySpa',desc:'环球城站旁，顶层 SkySpa 对住客开放，退园后不用再换车。',walk:'环球城站直连 · USJ 步行约 3 分钟',why:'位置＋展望浴场',url:'https://www.candeohotels.com/en/singulari/'},
+      {tag:'首选真温泉',name:'Hotel Keihan Universal Tower',desc:'距离乐园入口很近，31 楼为天然温泉、按摩池与桑拿。',walk:'USJ 大门步行约 2 分钟',why:'天然温泉 · 另收费',url:'https://tower.hotelkeihan.co.jp/'},
+      {tag:'Spa 度假',name:'LIBER HOTEL OSAKA',desc:'天然温泉大浴场、露天浴池和河岸露台更像度假酒店。',walk:'樱岛站旁 · 距环球城 1 站',why:'泡汤体验最好',url:'https://hotel-liber.jp/?wovn=en'}
+    ],
+    premium: [
+      {tag:'Spa 首选',name:'LIBER HOTEL OSAKA',desc:'天然温泉、露天浴池、桑拿和宽阔河景露台，适合把最后一晚住舒服。',walk:'樱岛站旁 · 距环球城 1 站',why:'完整温泉度假感',url:'https://hotel-liber.jp/?wovn=en'},
+      {tag:'高层温泉',name:'Hotel Keihan Universal Tower',desc:'高层房型搭配 31 楼天然温泉，离 USJ 大门也很近。',walk:'USJ 大门步行约 2 分钟',why:'夜景天然温泉',url:'https://tower.hotelkeihan.co.jp/'},
+      {tag:'展望浴场',name:'The Singulari Hotel & SkySpa',desc:'顶层露天大浴场可看大阪湾，环球城站直连。',walk:'环球城站直连 · USJ 步行约 3 分钟',why:'退园最省力',url:'https://www.candeohotels.com/en/singulari/'}
+    ]
   }
 };
 
 function s(time,title,desc,transit='',note='',tag=''){return {time,title,desc,transit,note,tag,spot:spotIdFor(title)};}
 
+function buildDatePlanDays(){
+  const f=(...args)=>({...s(...args),spot:''});
+  const templates={
+    'kyoto-arrival':()=>({city:'京都 · ARRIVAL',title:'落地后直接进京都，连续住三晚',walk:'约 4,000 步',rail:'约 80–100 分',stay:'京都 · 京都站 / 四条',tip:'13:15 落地后不再绕大阪。建议搭 JR HARUKA 直达京都；入境和取行李若较慢，当晚只安排车站附近晚餐。',stops:[
+      f('13:15','抵达关西国际机场 T1','入境、取行李、处理上网与 ICOCA。','','国际航班落地后通常还需 60–90 分钟'),
+      f('15:15','关西机场 → 京都站','优先选择 JR HARUKA，带行李时比多次换乘轻松。','JR HARUKA｜约 75–80 分 · 约 100 km'),
+      f('16:45','京都酒店办理入住','连续住到 12/23 早上，减少搬运行李。','京都站 / 四条站步行约 3–10 分'),
+      f('18:00','京都站周边晚餐','在 Porta、伊势丹或站前找乌冬、汤豆腐等轻松晚餐。','步行为主','第一晚不安排预约型景点','food')
+    ]}),
+    'kyoto-east':()=>({city:'京都 · SOUTH & EAST',title:'伏见稻荷、清水寺与祇园',walk:'约 17,000 步',rail:'约 45 分',stay:'京都 · 京都站 / 四条',tip:'伏见稻荷尽量早到；之后用京阪线接清水五条，再沿东山一路走到祇园，避免来回折返。',stops:[
+      f('08:00','酒店 → 伏见稻荷大社','清晨先走千本鸟居，人流明显更少。','JR 奈良线京都→稻荷约 5 分'),
+      f('08:20','伏见稻荷大社','走到四辻往返约 90–120 分钟。','','体力一般可在千本鸟居折返','history'),
+      f('11:00','伏见稻荷 → 清水五条','用京阪铁路避开京都站前巴士拥堵。','京阪本线｜约 15 分'),
+      f('12:00','清水寺 → 二年坂 → 三年坂','先上寺院，再一路下坡逛东山街区。','步行约 2.5 km','冬季寺院关闭较早','history'),
+      f('16:00','八坂神社 → 祇园','黄昏逛花见小路和白川一带。','步行约 20 分','','photo'),
+      f('18:00','先斗町 / 河原町晚餐','吃完回京都酒店，不再跨城。','地铁 / 巴士约 15–25 分','','food')
+    ]}),
+    'kyoto-west':()=>({city:'京都 · WEST',title:'岚山清晨、金阁寺与锦市场',walk:'约 16,000 步',rail:'约 60 分',stay:'京都 · 京都站 / 四条',tip:'岚山 08:30 前抵达体验更好。下午从金阁寺向市中心移动，晚餐后回同一家京都酒店。',stops:[
+      f('07:30','酒店 → 岚山','避开旅行团抵达时段。','JR 嵯峨野线京都→嵯峨岚山约 17 分'),
+      f('08:15','竹林小径 → 野宫神社','清晨慢走并拍照。','步行约 1.5 km','','nature'),
+      f('09:40','天龙寺 → 渡月桥','庭园、曹源池和桥边连成一条线。','步行约 20 分','','history'),
+      f('12:00','岚山午餐','豆腐料理、荞麦面或鲷鱼茶泡饭。','步行为主','','food'),
+      f('13:30','岚山 → 金阁寺','横向移动，不必绕回京都站。','岚电＋巴士 / 出租车｜约 35–45 分'),
+      f('14:20','金阁寺','预留约 60–75 分钟。','','闭馆时间临行确认','history'),
+      f('16:15','锦市场 → 四条河原町','市场收尾后在市中心晚餐和购物。','巴士 / 出租车约 30 分','部分店铺 17:00 后收摊','shop')
+    ]}),
+    'osaka-city':()=>({city:'大阪 · CITY',title:'大阪城、市场与心斋桥夜景',walk:'约 15,000 步',rail:'约 50 分',stay:'大阪 · 心斋桥 / 难波',tip:'适合替换任意一个自由日；住宿仍建议心斋桥，去奈良、神户和 USJ 都比较均衡。',stops:[
+      f('08:30','心斋桥 → 大阪城公园','从森之宫方向进入公园。','地铁长堀鹤见绿地线｜约 20 分'),
+      f('09:10','大阪城天守阁','预留 90 分钟。','','开放时间临行确认','history'),
+      f('11:45','黑门市场','少量多样吃午餐。','地铁约 20 分','','food'),
+      f('14:00','难波八阪神社 → 堀江','拍狮子殿，再逛橘子街。','步行＋地铁约 25 分','','photo'),
+      f('17:00','心斋桥 → 道顿堀','购物、霓虹夜景和晚餐连成一线。','全程步行约 2 km','','shop')
+    ]}),
+    'osaka-nara':()=>({city:'京都 → 大阪 → 奈良',title:'上午换酒店，下午奈良半日',walk:'约 14,000 步',rail:'约 120 分',stay:'大阪 · 心斋桥 / 难波',tip:'先到心斋桥酒店寄存大件行李，再轻装去奈良。半日版只走近铁奈良—奈良公园—东大寺—奈良町，不塞春日大社。',stops:[
+      f('08:00','京都酒店退房 → 大阪心斋桥','JR 新快速到大阪，再转地铁御堂筋线。','约 55–70 分 · 约 50 km'),
+      f('09:30','心斋桥酒店寄存行李','不必等入住时间，先放下大件行李。','心斋桥站步行约 3–8 分'),
+      f('10:15','大阪难波 → 近铁奈良','从心斋桥坐一站到难波，再搭快速急行。','近铁奈良线｜约 40 分 · 约 32 km'),
+      f('11:10','奈良公园 → 兴福寺','午前先看鹿群与五重塔区域。','近铁奈良站步行约 10 分','','nature'),
+      f('12:15','奈良公园午餐','柿叶寿司、茶粥或葛物料理。','步行为主','','food'),
+      f('13:20','东大寺大佛殿 → 二月堂','半日行程的核心，二月堂视野很好。','步行约 20 分','冬季通常 17:00 前关闭','history'),
+      f('15:30','奈良町短散步','町家街区喝茶后返回近铁奈良。','巴士 / 步行约 25 分','','photo'),
+      f('17:20','近铁奈良 → 大阪难波 → 心斋桥','回酒店正式入住，晚上在心斋桥吃饭。','约 45–55 分')
+    ]}),
+    'arima-kobe':()=>({city:'有马温泉 · 神户',title:'先泡有马，再看神户港夜景',walk:'约 11,000 步',rail:'约 150 分',stay:'大阪 · 心斋桥 / 难波',tip:'这天跨区较多但方向顺：大阪→有马→三宫→港湾→大阪。温泉以金之汤/银之汤或日归旅馆为主，需留意最后入场时间。',stops:[
+      f('08:00','大阪 → 有马温泉','优先查询大阪站/难波出发的直达巴士；无合适班次则经三宫转车。','高速巴士约 60–75 分'),
+      f('09:30','有马温泉老街','逛金泉源、汤本坂和小店。','步行为主','','nature'),
+      f('10:30','金之汤 / 日归温泉','预留约 90 分钟，不安排太满。','','毛巾与纹身规则临行确认','nature'),
+      f('12:20','有马午餐','釜饭、荞麦面或神户牛简餐。','步行为主','','food'),
+      f('13:30','有马温泉 → 神户三宫','经谷上或搭巴士到三宫。','约 35–50 分 · 约 20 km'),
+      f('14:30','北野异人馆 / 三宫咖啡','按体力二选一，之后一路下坡。','地铁＋步行约 20 分','','history'),
+      f('16:30','南京町 → 旧居留地','小吃与街拍后走向港口。','步行约 25 分','','shop'),
+      f('17:30','美利坚公园 → Harborland','把港塔和马赛克夜景放在蓝调时刻。','步行约 2 km','','view'),
+      f('19:30','神户三宫 → 大阪心斋桥','阪神线到大阪难波，再乘地铁一站。','约 45–55 分 · 约 35 km')
+    ]}),
+    'usj':()=>({city:'大阪 · USJ',title:'环球影城完整日，最后入住温泉酒店',walk:'约 18,000 步',rail:'约 40 分',stay:'USJ 周边 · 温泉 / 大浴场酒店',tip:'先把行李送到环球城酒店，再排队入园。推荐 The Singulari（大浴场免费）、Hotel Keihan Universal Tower（天然温泉另收费）或 LIBER（天然温泉体验最好）。',stops:[
+      f('06:45','心斋桥酒店退房 → 环球城','先到 USJ 周边酒店寄存行李。','地铁→JR 西九条→环球城｜约 35–45 分'),
+      f('07:40','USJ 酒店寄存行李','办寄存后轻装前往入口。','环球城站周边步行约 2–8 分'),
+      f('08:15','日本环球影城 USJ','完整日游玩；实际开园时间和园区预约规则需临行确认。','','提前购买门票并研究 Express Pass','view'),
+      f('19:30','退园 → 温泉酒店入住','晚餐可在 Universal CityWalk 解决。','步行约 3–12 分'),
+      f('21:00','SkySpa / 天然温泉','泡汤恢复体力，为第二天机场移动留足睡眠。','','不同酒店的收费与开放时间不同','nature')
+    ]}),
+    'departure':()=>({city:'大阪 · DEPARTURE',title:'从环球城周边从容去机场',walk:'约 3,000 步',rail:'约 80–100 分',stay:'返程',tip:'13:30 国际航班建议 10:30 前抵达 KIX。USJ 周边到机场比难波远，建议 08:30 左右退房并优先走铁路稳定路线。',stops:[
+      f('07:30','酒店早餐 · 最后整理','检查护照、充电设备与退税物品。'),
+      f('08:25','USJ 酒店退房 → 西九条 / 大阪','从环球城搭 JR 梦咲线离开。','JR 梦咲线｜约 10–15 分'),
+      f('08:50','大阪市区 → 关西机场','经天王寺转 HARUKA，或按当日运营选择机场巴士。','JR＋HARUKA｜约 65–80 分'),
+      f('10:15','抵达 KIX T1','托运、安检、出境与最后购物。','车站到值机区步行约 10 分'),
+      f('13:30','航班起飞','旅程结束。')
+    ]})
+  };
+  return state.dayPlans.map((plan,i)=>{
+    const day=(templates[plan]||templates['osaka-city'])();
+    return {...day,plan,date:dates[i][0]};
+  });
+}
+
 function buildDays(){
+  if(Array.isArray(state.dayPlans)&&state.dayPlans.length===7)return buildDatePlanDays();
   const twoBase = state.stay === 'balanced';
   const oneBase = state.stay === 'one';
   const kyotoLong = state.stay === 'kyoto';
@@ -391,9 +497,15 @@ function closeSightPicker(){
   document.body.classList.remove('no-scroll');
 }
 
+function renderDatePlan(){
+  const grid=document.querySelector('#datePlanGrid');
+  if(!grid)return;
+  grid.innerHTML=dates.map((date,i)=>`<label class="date-plan-row"><span><b>${date[0]}</b><small>${date[1]}</small></span><select data-plan-day="${i}" aria-label="${date[0]} 行程区域">${Object.entries(dayPlanOptions).map(([value,label])=>`<option value="${value}" ${state.dayPlans[i]===value?'selected':''}>${label}</option>`).join('')}</select></label>`).join('');
+}
+
 function updateHeader(){
   const pace = {slow:'松弛慢游版',balanced:'经典平衡版',full:'充实探索版'}[state.pace];
-  const bases = state.stay === 'one' ? '1 个住宿基地' : state.stay === 'balanced' ? '2 个住宿基地' : '京都 3 晚＋大阪';
+  const bases = '京都 3 晚＋心斋桥 2 晚＋USJ 1 晚';
   const picks = state.interests.map(x=>interestNames[x]).slice(0,3).join('、') || '经典必去';
   document.querySelector('#routeTitle').textContent = `冬日关西 · ${pace}`;
   document.querySelector('#routeSummary').textContent = `${bases} · ${state.sights.length} 个景点 · 偏爱 ${picks} · 动线已优化`;
@@ -402,7 +514,7 @@ function updateHeader(){
 function renderAll(resetDay=false){
   if(resetDay) state.day = 0;
   currentDays = applyManualEdits(buildDays());
-  renderTabs(); renderDay(); updateHeader(); updateSightCount();
+  renderDatePlan(); renderTabs(); renderDay(); updateHeader(); updateSightCount();
   const activeCity = document.querySelector('#hotelTabs .active')?.dataset.city || 'osaka';
   renderHotel(activeCity);
   localStorage.setItem('kansaiPlannerPrefs', JSON.stringify(state));
@@ -420,6 +532,12 @@ document.addEventListener('click',e=>{
   const move=e.target.closest('[data-move]'); if(move){moveStop(+move.dataset.index,move.dataset.move==='up'?-1:1);}
   const hide=e.target.closest('[data-hide]'); if(hide){hideStop(+hide.dataset.hide);}
   if(e.target.closest('[data-reset-day]')){resetDayEdits();}
+  if(e.target.closest('#resetDatePlan')){state.dayPlans=[...defaultDayPlans];state.hiddenStops={};state.manualOrders={};renderAll(true);toast('已恢复你的京都→大阪→USJ安排');}
+});
+
+document.querySelector('#datePlanGrid').addEventListener('change',e=>{
+  const select=e.target.closest('[data-plan-day]');if(!select)return;
+  state.dayPlans[+select.dataset.planDay]=select.value;state.hiddenStops={};state.manualOrders={};state.day=+select.dataset.planDay;renderAll();toast(`已更新 ${dates[state.day][0]} 的区域`);
 });
 
 function saveDayOrder(dayIndex){
@@ -481,7 +599,7 @@ document.querySelector('#copyBtn').addEventListener('click',async()=>{
 try{
   Object.assign(sightImageCache,JSON.parse(sessionStorage.getItem('kansaiSightImages')||'{}'));
   const saved=JSON.parse(localStorage.getItem('kansaiPlannerPrefs'));
-  if(saved){Object.assign(state,saved,{day:0});state.hiddenStops=state.hiddenStops||{};state.manualOrders=state.manualOrders||{};if(!Array.isArray(state.sights))state.sights=[...allSightIds];document.querySelectorAll('.segmented').forEach(group=>group.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.value===state[group.dataset.control])));document.querySelectorAll('.chips button').forEach(b=>b.classList.toggle('active',state.interests.includes(b.dataset.value)));const radio=document.querySelector(`input[name="stay"][value="${state.stay}"]`);if(radio){radio.checked=true;document.querySelectorAll('.radio-row').forEach(x=>x.classList.toggle('active',x.contains(radio)));}}
+  if(saved){Object.assign(state,saved,{day:0});state.hiddenStops=state.hiddenStops||{};state.manualOrders=state.manualOrders||{};if(!Array.isArray(state.sights))state.sights=[...allSightIds];if(!Array.isArray(saved.dayPlans)||saved.dayPlans.length!==7){state.dayPlans=[...defaultDayPlans];state.hiddenStops={};state.manualOrders={};}document.querySelectorAll('.segmented').forEach(group=>group.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.value===state[group.dataset.control])));document.querySelectorAll('.chips button').forEach(b=>b.classList.toggle('active',state.interests.includes(b.dataset.value)));const radio=document.querySelector(`input[name="stay"][value="${state.stay}"]`);if(radio){radio.checked=true;document.querySelectorAll('.radio-row').forEach(x=>x.classList.toggle('active',x.contains(radio)));}}
 }catch{}
 
 renderAll();
